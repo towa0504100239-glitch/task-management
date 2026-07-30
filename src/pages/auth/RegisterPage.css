@@ -1,0 +1,62 @@
+.status {
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 120px;
+}
+
+.logoArea {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.logo {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto 12px auto;
+}
+.logo img{
+  width: 100%;
+}
+.logoArea h1 {
+  margin-top: 20px;
+  font-size: 28px;
+  color: #111827;
+}
+
+.logoArea p {
+  margin-top: 8px;
+  font-size: 1.4rem;
+  color: #374151;
+}
+
+.RegisterForm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.RegisterForm input[type="text"],
+.RegisterForm input[type="email"],
+.RegisterForm input[type="password"] {
+  height: 44px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 0 12px;
+  font-size: 14px;
+}
+
+.RegisterForm input::placeholder {
+  color: #9ca3af;
+}
+.RegisterForm button {
+  height: 48px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #5b5cff, #4f46e5);
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 80%;
+  min-width: 245px;
+  margin: 10px auto 0 auto;
+}
