@@ -1,0 +1,105 @@
+.containaer {
+    width: 100%;
+    padding: 40px 20px 0 20px;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.levelWrapper{
+    display: flex;
+        align-items: flex-end;
+    justify-content: space-between;
+}
+.levelWrapper h1{
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+.xpBar{
+    width: 100%;
+    height: 12px;
+    background-color: #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+.xpProgress{
+    width: 6.5%;
+    height: 100%;
+    background-color: #3b82f6;
+    border-radius: 10px;
+}
+.day{
+    margin: 20px 0;
+    text-align:left;
+}
+.daySelect{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 8px;
+    border-radius: 6px;
+     background-color: #f3f4f6;
+}
+.daySelect div{
+    padding: 8px 0;
+    width:25%;
+    border-right: 1px solid #e5e7eb;
+}
+.daySelect div:last-child{
+    border-right: none;
+}
+.pick{
+    background-color: #3b82f6 !important;
+    color: #ffffff;
+    height:100%;
+    border-radius: 6px;
+}
+.taskTitle{
+    font-size: 16px;
+    font-weight: bold;
+    margin: 20px 0;
+    text-align:left;
+}
+.taskList {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+.taskInfo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.taskIcon{
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    color: #ffffff;
+    font-weight: bold;
+    border-radius: 5px;
+}
+.taskIcon.v1{
+    background-color: #f87171;
+}
+.taskIcon.v2{
+    background-color: #fbbf24;
+}
+.taskIcon.v3{
+    background-color: #34d399;
+}
+.taskName{
+    font-weight: bold;
+    color: #374151;
+    margin:0;
+}
+.taskTime{
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin:0;
+}
+.taskWrap{
+    width:calc(100% - 80px);
+    text-align:left;
+}

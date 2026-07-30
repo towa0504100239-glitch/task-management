@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {Link} from "react-router-dom"
+import {Link,useNavigate} from "react-router-dom"
 import Logo from '../../assets/icon.png'
 import MailIcon from '../../assets/icon_mail.png'
 import PasswordIcon from '../../assets/icon_password.png'
@@ -10,6 +10,11 @@ import '../../index.css'
 
 function LoginPage() {
 const [showPassword, setShowPassword] = useState(false);
+const navigate = useNavigate();
+
+const handleLogin = () => {
+  navigate("/home");
+};
   return (
     <>
        <div className="screen">
@@ -48,7 +53,9 @@ const [showPassword, setShowPassword] = useState(false);
             ログインしたままにする
           </label>
 
-          <button className="authButton" type="button">ログイン</button>
+          <button className="authButton" type="button" onClick={handleLogin}>
+            ログイン
+          </button>
         </form>
 
         <p className="signup">
