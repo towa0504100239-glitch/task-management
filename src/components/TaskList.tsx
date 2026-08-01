@@ -1,5 +1,5 @@
 import TaskCard from "./TaskCard";
-import type { Task } from "../../types/Task";
+import type { Task } from "../types/Task";
 
 type Props = {
   tasks: Task[];

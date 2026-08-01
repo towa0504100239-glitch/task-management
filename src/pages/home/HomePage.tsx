@@ -1,8 +1,9 @@
 import '../../index.css'
 import './HomePage.css'
-import BottomNav from "../components/BottomNav";
-import TaskList from "../components/TaskList";
+import BottomNav from "../../components/BottomNav";
+import TaskList from "../../components/TaskList";
 import type { Task } from "../../types/Task";
+import { useNavigate } from "react-router-dom";
 function HomePage() {
 const tasks: Task[] = [
   {
@@ -22,7 +23,9 @@ const tasks: Task[] = [
 ];
 const handleClick = () => {
   console.log("クリックされた！");
+navigate("/task/create");
 };
+const navigate = useNavigate();
   return (
     <div className="containaer">
       <div className="levelWrapper">
