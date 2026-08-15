@@ -1,0 +1,254 @@
+.taskCreatePage {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #ffffff;
+  color: #222222;
+}
+
+.taskCreateHeader {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  height: 60px;
+  padding: 0 20px;
+
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.taskCreateHeader h1 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  margin: 0;
+
+  font-size: 18px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+
+.closeButton {
+  background: none;
+  border: none;
+
+  font-size: 26px;
+  font-weight: 300;
+
+  color: #333333;
+
+  cursor: pointer;
+}
+
+.saveButton {
+  margin-left: auto;
+
+  background: none;
+  border: none;
+
+  color: #5b5bff;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.taskCreateContent {
+  width: 100%;
+  max-width: 500px;
+
+  margin: 0 auto;
+  padding: 24px 20px;
+}
+
+.formGroup {
+  margin-bottom: 24px;
+}
+
+.formGroup label,
+.priorityLabel {
+  display: block;
+
+  margin: 0 0 8px;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  color: #444444;
+}
+
+.formGroup input {
+  width: 100%;
+  height: 48px;
+
+  padding: 0 14px;
+
+  background-color: #ffffff;
+
+  border: 1px solid #e2e5eb;
+  border-radius: 7px;
+
+  color: #333333;
+
+  font-size: 14px;
+
+  outline: none;
+
+  box-sizing: border-box;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.formGroup input::placeholder,
+.formGroup textarea::placeholder {
+  color: #b8bcc5;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus {
+  border-color: #5b5bff;
+
+  box-shadow: 0 0 0 2px rgba(91, 91, 255, 0.08);
+}
+
+.formGroup textarea {
+  width: 100%;
+  min-height: 100px;
+
+  padding: 14px;
+
+  background-color: #ffffff;
+
+  border: 1px solid #e2e5eb;
+  border-radius: 7px;
+
+  color: #333333;
+
+  font-size: 14px;
+  font-family: inherit;
+
+  outline: none;
+
+  resize: vertical;
+
+  box-sizing: border-box;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.formGroup input[type="date"],
+.formGroup input[type="datetime-local"] {
+  cursor: pointer;
+}
+
+
+.priorityButtons {
+  display: flex;
+  gap: 10px;
+
+  width: 100%;
+}
+
+.priorityButton {
+  flex: 1;
+
+  height: 42px;
+
+  background-color: #ffffff;
+
+  border: 1px solid #e2e5eb;
+  border-radius: 7px;
+
+  color: #555555;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+
+.priorityButton.high.active {
+  background-color: #ff4d4f;
+  border-color: #ff4d4f;
+
+  color: #ffffff;
+}
+
+
+.priorityButton.middle.active {
+  background-color: #fbbc05;
+  border-color: #fbbc05;
+
+  color: #ffffff;
+}
+
+
+
+.priorityButton.low.active {
+  background-color: #5b5bff;
+  border-color: #5b5bff;
+
+  color: #ffffff;
+}
+
+
+
+.priorityButton:hover {
+  opacity: 0.85;
+}
+
+.saveButton:hover {
+  opacity: 0.7;
+}
+
+.closeButton:hover {
+  opacity: 0.6;
+}
+
+
+@media (max-width: 600px) {
+
+  .taskCreateHeader {
+    height: 56px;
+    padding: 0 16px;
+  }
+
+  .taskCreateHeader h1 {
+    font-size: 16px;
+  }
+
+  .taskCreateContent {
+    padding: 20px 16px;
+  }
+
+  .formGroup {
+    margin-bottom: 20px;
+  }
+
+  .formGroup input {
+    height: 46px;
+  }
+
+  .formGroup textarea {
+    min-height: 90px;
+  }
+
+  .priorityButton {
+    height: 40px;
+  }
+}
