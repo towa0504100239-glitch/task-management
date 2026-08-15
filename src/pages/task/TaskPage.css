@@ -1,312 +1,167 @@
 .taskPage {
   width: 100%;
   min-height: 100vh;
-
   background-color: #ffffff;
-
   padding-bottom: 80px;
-
   box-sizing: border-box;
 }
-
-
-/* =========================
-   ヘッダー
-========================= */
-
 .taskHeader {
   display: flex;
   align-items: center;
   justify-content: center;
-
   height: 60px;
-
   border-bottom: 1px solid #eeeeee;
-
   background-color: #ffffff;
 }
-
 .taskHeader h1 {
   margin: 0;
-
   font-size: 18px;
   font-weight: 700;
-
   color: #222222;
 }
-
-
-/* =========================
-   コンテンツ
-========================= */
-
 .taskContent {
   width: 100%;
   max-width: 500px;
-
   margin: 0 auto;
   padding: 24px 20px;
-
   box-sizing: border-box;
 }
-
-
-/* =========================
-   一覧タイトル
-========================= */
-
 .taskTitleArea {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   margin-bottom: 24px;
 }
-
 .taskTitleArea h2 {
   margin: 0 0 5px;
-
   font-size: 22px;
   font-weight: 700;
-
   color: #222222;
 }
-
 .taskTitleArea p {
   margin: 0;
-
   font-size: 13px;
-
   color: #999999;
 }
-
-
-/* =========================
-   ＋ボタン
-========================= */
-
 .addTaskButton {
   display: flex;
   align-items: center;
   justify-content: center;
-
   width: 46px;
   height: 46px;
-
   border: none;
   border-radius: 50%;
-
   background-color: #5b5bff;
   color: #ffffff;
-
   font-size: 28px;
   font-weight: 300;
-
   cursor: pointer;
-
   box-shadow: 0 4px 10px rgba(91, 91, 255, 0.25);
 }
-
 .addTaskButton:hover {
   opacity: 0.85;
 }
-
-
-/* =========================
-   タスク一覧
-========================= */
-
 .taskList {
   display: flex;
   flex-direction: column;
-
   gap: 12px;
 }
-
-
-/* =========================
-   タスクカード
-========================= */
-
 .taskItem {
   width: 100%;
-
   padding: 16px;
-
   background-color: #ffffff;
-
   border: 1px solid #e5e7eb;
   border-radius: 10px;
-
   text-align: left;
-
   cursor: pointer;
-
   box-sizing: border-box;
-
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
-
 .taskItem:hover {
   transform: translateY(-1px);
-
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
-
-
-/* =========================
-   タスク上部
-========================= */
-
 .taskItemTop {
   display: flex;
   align-items: center;
-
   gap: 10px;
-
   margin-bottom: 12px;
 }
-
 .taskName {
   flex: 1;
-
   font-size: 15px;
   font-weight: 700;
-
   color: #333333;
 }
-
-
-/* =========================
-   優先度
-========================= */
-
 .priorityBadge {
   display: flex;
   align-items: center;
   justify-content: center;
-
   min-width: 34px;
   height: 24px;
-
   padding: 0 8px;
-
   border-radius: 5px;
-
   font-size: 11px;
   font-weight: 700;
-
   box-sizing: border-box;
 }
-
-
-/* 高 */
 .priorityBadge.high {
   background-color: #ffe5e5;
   color: #ff4d4f;
 }
-
-
-/* 中 */
 .priorityBadge.middle {
   background-color: #fff4cc;
   color: #d99a00;
 }
-
-
-/* 低 */
 .priorityBadge.low {
   background-color: #eeeeff;
   color: #5b5bff;
 }
-
-
-/* =========================
-   日付・期限
-========================= */
-
 .taskItemBottom {
   display: flex;
   justify-content: space-between;
-
   gap: 10px;
-
   font-size: 12px;
-
   color: #999999;
 }
-
-
-/* =========================
-   完了済み
-========================= */
-
 .taskItem.completed {
   opacity: 0.55;
 }
-
 .taskItem.completed .taskName {
   text-decoration: line-through;
 }
-
-
-/* =========================
-   タスクがない場合
-========================= */
-
 .emptyTask {
   display: flex;
   flex-direction: column;
   align-items: center;
-
   padding: 60px 20px;
-
   color: #999999;
 }
-
 .emptyTask p {
   margin-bottom: 16px;
 }
-
 .emptyTask button {
   padding: 10px 20px;
-
   border: none;
   border-radius: 20px;
-
   background-color: #5b5bff;
   color: #ffffff;
-
   font-weight: 700;
-
   cursor: pointer;
 }
-
-
-/* =========================
-   スマホ
-========================= */
-
 @media (max-width: 600px) {
-
   .taskHeader {
     height: 56px;
   }
-
   .taskHeader h1 {
     font-size: 16px;
   }
-
   .taskContent {
     padding: 20px 16px;
   }
-
   .taskTitleArea h2 {
     font-size: 20px;
   }
-
   .addTaskButton {
     width: 44px;
     height: 44px;

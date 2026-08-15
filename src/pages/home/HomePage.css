@@ -1,114 +1,114 @@
 .container {
-    width: 100%;
-    padding: 40px 20px 0 20px;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+  width: 100%;
+  padding: 40px 20px 0 20px;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 .levelWrapper{
-    display: flex;
-        align-items: flex-end;
-    justify-content: space-between;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
 }
 .levelWrapper h1{
-    font-size: 24px;
-    font-weight: bold;
-    margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
 }
 .xpBar{
-    width: 100%;
-    height: 12px;
-    background-color: #e5e7eb;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 8px;
+  width: 100%;
+  height: 12px;
+  background-color: #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 8px;
 }
 .xpProgress{
-    width: 6.5%;
-    height: 100%;
-    background-color: #3b82f6;
-    border-radius: 10px;
+  width: 6.5%;
+  height: 100%;
+  background-color: #3b82f6;
+  border-radius: 10px;
 }
 .day{
-    margin: 20px 0;
-    text-align:left;
+  margin: 20px 0;
+  text-align:left;
 }
 .daySelect{
-    display: flex;
-    justify-content: space-around;
-    margin-top: 8px;
-    border-radius: 6px;
-     background-color: #f3f4f6;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 8px;
+  border-radius: 6px;
+  background-color: #f3f4f6;
 }
 .daySelect div{
-    padding: 8px 0;
-    width:25%;
-    border-right: 1px solid #e5e7eb;
+  padding: 8px 0;
+  width:25%;
+  border-right: 1px solid #e5e7eb;
 }
 .daySelect div:last-child{
-    border-right: none;
+  border-right: none;
 }
 .pick{
-    background-color: #3b82f6 !important;
-    color: #ffffff;
-    height:100%;
-    border-radius: 6px;
+  background-color: #3b82f6 !important;
+  color: #ffffff;
+  height:100%;
+  border-radius: 6px;
 }
 .taskTitle{
-    font-size: 16px;
-    font-weight: bold;
-    margin: 20px 0;
-    text-align:left;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 20px 0;
+  text-align:left;
 }
 .taskList {
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
 }
 .taskInfo{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
 }
 .taskIcon{
-    width: 24px;
-    height: 24px;
-    margin-right: 8px;
-    color: #ffffff;
-    font-weight: bold;
-    border-radius: 5px;
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  color: #ffffff;
+  font-weight: bold;
+  border-radius: 5px;
 }
 .taskIcon.v1{
-    background-color: #f87171;
+  background-color: #f87171;
 }
 .taskIcon.v2{
-    background-color: #fbbf24;
+  background-color: #fbbf24;
 }
 .taskIcon.v3{
-    background-color: #34d399;
+  background-color: #34d399;
 }
 .taskName{
-    font-weight: bold;
-    color: #374151;
-    margin:0;
+  font-weight: bold;
+  color: #374151;
+  margin:0;
 }
 .taskTime{
-    font-size: 0.75rem;
-    color: #6b7280;
-    margin:0;
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin:0;
 }
 .taskWrap{
-    width:calc(100% - 80px);
-    text-align:left;
+  width:calc(100% - 80px);
+  text-align:left;
 }
 .add_btn {
-    position: absolute;
-    top: auto;
-    bottom: 100px;
-    left: auto;
-    right: 20px;
+  position: absolute;
+  top: auto;
+  bottom: 100px;
+  left: auto;
+  right: 20px;
   width: 58px;
   height: 58px;
   padding: 0;
@@ -122,15 +122,89 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow:
-    0 4px 12px
-    rgba(91, 91, 255, 0.35);
+  box-shadow: 0 4px 12px rgba(91, 91, 255, 0.35);
   z-index: 10;
-   margin: 0 0 0 auto;
+  margin: 0 0 0 auto;
 }
 .add_btn:hover {
   background-color: #4d4df0;
 }
 .add_btn:active {
   transform: scale(0.95);
+}
+.reflectionSection {
+  width: 100%;
+  margin-top: 28px;
+  margin-bottom: 100px;
+}
+.reflectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.reflectionTitle {
+  margin: 0;
+  color: #333333;
+  font-size: 15px;
+  font-weight: 700;
+}
+.reflectionDescription {
+  margin: 4px 0 0;
+  color: #999999;
+  font-size: 11px;
+}
+.reflectionButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 72px;
+  padding: 14px 16px;
+  border: 1px solid #e5e5ff;
+  border-radius: 12px;
+  background-color: #ffffff;
+  cursor: pointer;
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+.reflectionButton:active {
+  transform: scale(0.98);
+  background-color: #f8f8ff;
+}
+.reflectionButtonText {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+}
+.reflectionButtonIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background-color: #eeeeff;
+  color: #5b5bff;
+  font-size: 18px;
+  font-weight: 700;
+}
+.reflectionButtonTitle {
+  display: block;
+  margin-bottom: 4px;
+  color: #333333;
+  font-size: 13px;
+  font-weight: 700;
+}
+.reflectionButtonSub {
+  display: block;
+  color: #999999;
+  font-size: 10px;
+}
+.reflectionArrow {
+  color: #aaaaaa;
+  font-size: 16px;
 }

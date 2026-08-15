@@ -1,0 +1,148 @@
+.retrospectivePage {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #ffffff;
+  color: #333333;
+  box-sizing: border-box;
+}
+.retrospectiveHeader {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 60px;
+  padding: 0 16px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #eeeeee;
+  box-sizing: border-box;
+}
+.retrospectiveHeader h1 {
+  position: absolute;
+  left: 50%;
+  margin: 0;
+  transform: translateX(-50%);
+  color: #222222;
+  font-size: 17px;
+  font-weight: 700;
+}
+.retrospectiveBackButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  color: #333333;
+  font-size: 20px;
+  cursor: pointer;
+}
+.retrospectiveHeaderSpace {
+  width: 40px;
+}
+.retrospectiveContent {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 16px;
+  box-sizing: border-box;
+}
+.retrospectiveDateSelector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 24px;
+  padding: 0 4px;
+  box-sizing: border-box;
+}
+.retrospectiveDate {
+  margin: 0;
+  color: #333333;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+}
+.retrospectiveDateButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
+  color: #555555;
+  font-size: 16px;
+  cursor: pointer;
+}
+.retrospectiveDateButton:active {
+  background-color: #f3f3f7;
+}
+.retrospectiveFormGroup {
+  margin-bottom: 22px;
+}
+.retrospectiveFormGroup label {
+  display: block;
+  margin-bottom: 9px;
+  color: #333333;
+  font-size: 13px;
+  font-weight: 700;
+}
+.retrospectiveFormGroup textarea {
+  display: block;
+  width: 100%;
+  min-height: 120px;
+  padding: 14px;
+  border: 1px solid #e1e1e8;
+  border-radius: 8px;
+  outline: none;
+  resize: vertical;
+  background-color: #ffffff;
+  color: #333333;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+.retrospectiveFormGroup textarea::placeholder {
+  color: #bbbbbb;
+}
+.retrospectiveFormGroup textarea:focus {
+  border-color: #5b5bff;
+  box-shadow: 0 0 0 2px rgba(91, 91, 255, 0.08);
+}
+.retrospectiveSaveButton {
+  width: 100%;
+  height: 48px;
+  margin-top: 6px;
+  border: none;
+  border-radius: 7px;
+  background-color: #5b5bff;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.retrospectiveSaveButton:active {
+  opacity: 0.85;
+  transform: scale(0.99);
+}
+@media (max-width: 600px) {
+  .retrospectiveHeader {
+    height: 56px;
+  }
+  .retrospectiveHeader h1 {
+    font-size: 16px;
+  }
+  .retrospectiveContent {
+    padding: 16px;
+  }
+  .retrospectiveFormGroup textarea {
+    min-height: 115px;
+  }
+}

@@ -16,8 +16,6 @@ type Task = {
 function TaskPage() {
   const navigate = useNavigate();
 
-  // 仮データ
-  // 後でバックエンドから取得する
   const tasks: Task[] = [
     {
       id: 1,
@@ -72,27 +70,31 @@ function TaskPage() {
             type="button"
             className="addTaskButton"
             onClick={() =>
-                navigate("/task/create", {
-                    state: {
-                    from: "/task",
-                    },
-                })
-                }
+              navigate("/task/create", {
+                state: {
+                  from: "/task",
+                },
+              })
+            }
           >
             ＋
           </button>
         </div>
 
-        {/* タスク一覧 */}
         <div className="taskList">
-
           {tasks.length === 0 ? (
             <div className="emptyTask">
               <p>タスクがありません</p>
 
               <button
                 type="button"
-                onClick={() => navigate("/task/create")}
+                onClick={() =>
+                  navigate("/task/create", {
+                    state: {
+                      from: "/task",
+                    },
+                  })
+                }
               >
                 タスクを追加
               </button>
@@ -105,10 +107,11 @@ function TaskPage() {
                 className={`taskItem ${
                   task.completed ? "completed" : ""
                 }`}
-                onClick={() => navigate(`/task/${task.id}`)}
+                onClick={() =>
+                  navigate(`/task/${task.id}`)
+                }
               >
                 <div className="taskItemTop">
-
                   <span
                     className={`priorityBadge ${getPriorityClass(
                       task.priority
@@ -120,25 +123,24 @@ function TaskPage() {
                   <span className="taskName">
                     {task.title}
                   </span>
-
                 </div>
 
                 <div className="taskItemBottom">
                   <span>{task.date}</span>
 
                   {task.deadline && (
-                    <span>期限 {task.deadline}</span>
+                    <span>
+                      期限 {task.deadline}
+                    </span>
                   )}
                 </div>
               </button>
             ))
           )}
-
         </div>
       </main>
 
       <BottomNav />
-
     </div>
   );
 }

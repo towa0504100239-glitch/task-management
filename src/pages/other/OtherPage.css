@@ -1,0 +1,120 @@
+.otherPage {
+  width: 100%;
+  min-height: 100vh;
+  padding-bottom: 90px;
+  background-color: #f8f8fb;
+  color: #222222;
+  box-sizing: border-box;
+}
+.otherHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #eeeeee;
+}
+.otherHeader h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+.otherContent {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  box-sizing: border-box;
+}
+.otherSection {
+  margin-bottom: 28px;
+}
+.otherSectionTitle {
+  margin: 0 0 8px 6px;
+  color: #777777;
+  font-size: 12px;
+  font-weight: 600;
+}
+.otherMenu {
+  overflow: hidden;
+  background-color: #ffffff;
+  border: 1px solid #e9e9ee;
+  border-radius: 12px;
+}
+.otherMenuItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 58px;
+  padding: 0 16px;
+  border: none;
+  border-bottom: 1px solid #eeeeee;
+  background-color: #ffffff;
+  color: #333333;
+  font-size: 14px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.otherMenuItem:last-child {
+  border-bottom: none;
+}
+.otherMenuItem:active {
+  background-color: #f5f5f8;
+}
+.otherMenuLeft {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  font-weight: 600;
+}
+.otherIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background-color: #eeeeff;
+  color: #5b5bff;
+  font-size: 16px;
+  font-weight: bold;
+}
+.otherArrow {
+  color: #aaaaaa;
+  font-size: 16px;
+}
+.logoutSection {
+  margin-top: 36px;
+}
+.logoutButton {
+  width: 100%;
+  height: 52px;
+  border: 1px solid #ffdddd;
+  border-radius: 12px;
+  background-color: #ffffff;
+  color: #e54848;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.logoutButton:active {
+  background-color: #fff5f5;
+}
+.appVersion {
+  margin-top: 20px;
+  color: #aaaaaa;
+  font-size: 11px;
+  text-align: center;
+}
+@media (max-width: 600px) {
+  .otherHeader {
+    height: 56px;
+  }
+  .otherHeader h1 {
+    font-size: 16px;
+  }
+  .otherContent {
+    padding: 20px 16px;
+  }
+}

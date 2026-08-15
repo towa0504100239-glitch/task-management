@@ -1,0 +1,289 @@
+.statisticsPage {
+  width: 100%;
+  min-height: 100vh;
+  padding-bottom: 90px;
+  background-color: #ffffff;
+  color: #222222;
+  box-sizing: border-box;
+}
+.statisticsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  border-bottom: 1px solid #eeeeee;
+}
+.statisticsHeader h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+.statisticsContent {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.periodTabs {
+  display: flex;
+  width: 100%;
+  padding: 4px;
+  background-color: #f1f1f5;
+  border-radius: 9px;
+  box-sizing: border-box;
+}
+.periodTab {
+  flex: 1;
+  height: 38px;
+  border: none;
+  border-radius: 7px;
+  background-color: transparent;
+  color: #777777;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.periodTab.active {
+  background-color: #5b5bff;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(91, 91, 255, 0.2);
+}
+.statisticsDate {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 22px 0;
+}
+.statisticsDate h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+}
+.dateArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background-color: transparent;
+  color: #555555;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.dateArrow:hover {
+  background-color: #f4f4f8;
+}
+.summaryCards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.summaryCard {
+  padding: 18px 16px;
+  border: 1px solid #e6e6eb;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+}
+.summaryLabel {
+  margin: 0 0 10px;
+  color: #666666;
+  font-size: 12px;
+  font-weight: 700;
+}
+.summaryValue {
+  margin: 0;
+  color: #222222;
+  font-size: 30px;
+  font-weight: 700;
+}
+.summaryValue span {
+  margin-left: 3px;
+  font-size: 15px;
+}
+.chartSection {
+  margin-bottom: 28px;
+}
+.chartSection h3 {
+  margin: 0 0 16px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.chartScroll {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 8px;
+  scrollbar-width: thin;
+}
+.chart {
+  display: flex;
+  width: 100%;
+  min-width: 430px;
+  height: 210px;
+}
+.chart.monthlyChart {
+  min-width: 950px;
+}
+.chartYAxis {
+  position: sticky;
+  left: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 34px;
+  min-width: 34px;
+  height: 180px;
+  padding-bottom: 25px;
+  background-color: #ffffff;
+  color: #aaaaaa;
+  font-size: 10px;
+  box-sizing: border-box;
+}
+.chartArea {
+  position: relative;
+  flex: 1;
+  height: 180px;
+}
+.chartLine {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #eeeeee;
+}
+.lineTop {
+  top: 0;
+}
+.lineMiddle {
+  top: 50%;
+}
+.lineBottom {
+  bottom: 25px;
+}
+.chartBars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  height: 100%;
+  padding-bottom: 25px;
+  box-sizing: border-box;
+}
+.chartBarItem {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  min-width: 26px;
+  height: 100%;
+}
+.barWrapper {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  height: calc(100% - 22px);
+}
+.chartBar {
+  width: 8px;
+  min-height: 2px;
+  background-color: #5b5bff;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.25s ease;
+}
+.barValue {
+  position: absolute;
+  bottom: calc(100% + 2px);
+  display: none;
+  color: #777777;
+  font-size: 9px;
+}
+.chartBarItem:hover .barValue {
+  display: block;
+}
+.chartLabel {
+  margin-top: 7px;
+  color: #999999;
+  font-size: 9px;
+  white-space: nowrap;
+}
+.statisticsList {
+  border-top: 1px solid #eeeeee;
+}
+.statisticsItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 58px;
+  border-bottom: 1px solid #eeeeee;
+}
+.statisticsItemLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #555555;
+  font-size: 13px;
+  font-weight: 600;
+}
+.statisticsItem strong {
+  color: #333333;
+  font-size: 14px;
+}
+.statisticsIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  font-size: 15px;
+}
+.chartScroll::-webkit-scrollbar {
+  height: 5px;
+}
+.chartScroll::-webkit-scrollbar-track {
+  background-color: #f3f3f3;
+  border-radius: 10px;
+}
+.chartScroll::-webkit-scrollbar-thumb {
+  background-color: #cccccc;
+  border-radius: 10px;
+}
+@media (max-width: 600px) {
+  .statisticsHeader {
+    height: 56px;
+  }
+  .statisticsHeader h1 {
+    font-size: 16px;
+  }
+  .statisticsContent {
+    padding: 16px;
+  }
+  .statisticsDate {
+    margin: 18px 0;
+  }
+  .statisticsDate h2 {
+    font-size: 15px;
+  }
+  .summaryValue {
+    font-size: 28px;
+  }
+  .chart {
+    height: 200px;
+  }
+  .chartArea {
+    height: 175px;
+  }
+  .chartYAxis {
+    height: 175px;
+  }
+}

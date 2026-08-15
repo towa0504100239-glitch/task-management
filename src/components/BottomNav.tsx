@@ -38,7 +38,7 @@ function BottomNav() {
     activeIcon: statistics_cl,
   },
   {
-    path: "/menu",
+    path: "/other",
     label: "その他",
     icon: menu,
     activeIcon: menu_cl,
