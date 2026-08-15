@@ -1,0 +1,359 @@
+/* =========================
+   タスク詳細画面
+========================= */
+
+.taskDetailPage {
+  width: 100%;
+  min-height: 100vh;
+
+  background-color: #ffffff;
+  color: #222222;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================
+   ヘッダー
+========================= */
+
+.taskDetailHeader {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  height: 60px;
+  padding: 0 20px;
+
+  background-color: #ffffff;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+.taskDetailHeader h1 {
+  position: absolute;
+
+  left: 50%;
+  transform: translateX(-50%);
+
+  margin: 0;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+
+/* 戻るボタン */
+.backButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+  padding: 0;
+
+  background: none;
+  border: none;
+
+  color: #333333;
+
+  font-size: 28px;
+
+  cursor: pointer;
+}
+
+
+/* 編集ボタン */
+.editButton {
+  margin-left: auto;
+
+  background: none;
+  border: none;
+
+  color: #5b5bff;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+/* =========================
+   メインコンテンツ
+========================= */
+
+.taskDetailContent {
+  width: 100%;
+  max-width: 500px;
+
+  margin: 0 auto;
+
+  padding: 28px 20px 120px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================
+   タスクタイトル
+========================= */
+
+.taskDetailTitleArea {
+  margin-bottom: 28px;
+}
+
+.taskDetailTitleArea h2 {
+  margin: 0 0 12px;
+
+  color: #222222;
+
+  font-size: 24px;
+  font-weight: 700;
+
+  line-height: 1.5;
+}
+
+
+/* =========================
+   優先度
+========================= */
+
+.taskDetailPriority {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 42px;
+  height: 26px;
+
+  padding: 0 10px;
+
+  border-radius: 6px;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+/* 高 */
+.taskDetailPriority.high {
+  background-color: #ffe5e5;
+  color: #ff4d4f;
+}
+
+
+/* 中 */
+.taskDetailPriority.middle {
+  background-color: #fff4cc;
+  color: #d99a00;
+}
+
+
+/* 低 */
+.taskDetailPriority.low {
+  background-color: #eeeeff;
+  color: #5b5bff;
+}
+
+
+/* =========================
+   詳細情報
+========================= */
+
+.taskDetailInfo {
+  display: flex;
+  flex-direction: column;
+
+  border-top: 1px solid #eeeeee;
+}
+
+
+/* 1行 */
+.taskDetailRow {
+  display: flex;
+
+  padding: 18px 0;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+
+/* 左側の項目名 */
+.taskDetailLabel {
+  width: 90px;
+
+  flex-shrink: 0;
+
+  color: #888888;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+
+/* 右側 */
+.taskDetailValue {
+  flex: 1;
+
+  margin: 0;
+
+  color: #333333;
+
+  font-size: 14px;
+
+  line-height: 1.7;
+
+  word-break: break-word;
+}
+
+
+/* =========================
+   詳細文章
+========================= */
+
+.taskDescription {
+  white-space: pre-wrap;
+}
+
+
+/* =========================
+   完了ボタン
+========================= */
+
+.completeButton {
+  width: 100%;
+  height: 50px;
+
+  margin-top: 32px;
+
+  background-color: #5b5bff;
+  color: #ffffff;
+
+  border: none;
+  border-radius: 10px;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.1s ease;
+}
+
+.completeButton:hover {
+  opacity: 0.85;
+}
+
+.completeButton:active {
+  transform: scale(0.98);
+}
+
+
+/* 完了済みの場合 */
+.completeButton.completed {
+  background-color: #eeeeee;
+
+  color: #777777;
+}
+
+
+/* =========================
+   削除ボタン
+========================= */
+
+.deleteButton {
+  width: 100%;
+  height: 48px;
+
+  margin-top: 12px;
+
+  background-color: #ffffff;
+
+  border: 1px solid #ff4d4f;
+  border-radius: 10px;
+
+  color: #ff4d4f;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.deleteButton:hover {
+  background-color: #ff4d4f;
+
+  color: #ffffff;
+}
+
+
+/* =========================
+   完了済みタスク
+========================= */
+
+.taskDetailPage.isCompleted .taskDetailTitleArea h2 {
+  color: #999999;
+
+  text-decoration: line-through;
+}
+
+
+/* =========================
+   スマホ
+========================= */
+
+@media (max-width: 600px) {
+
+  .taskDetailHeader {
+    height: 56px;
+
+    padding: 0 16px;
+  }
+
+  .taskDetailHeader h1 {
+    font-size: 16px;
+  }
+
+  .taskDetailContent {
+    padding:
+      24px
+      16px
+      100px;
+  }
+
+  .taskDetailTitleArea h2 {
+    font-size: 21px;
+  }
+
+  .taskDetailRow {
+    padding: 16px 0;
+  }
+
+  .taskDetailLabel {
+    width: 80px;
+
+    font-size: 12px;
+  }
+
+  .taskDetailValue {
+    font-size: 13px;
+  }
+
+  .completeButton {
+    height: 48px;
+  }
+}

@@ -2,19 +2,27 @@ import "../../index.css";
 import "./CalendarPage.css";
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 import BottomNav from "../../components/BottomNav";
 import TaskList from "../../components/TaskList";
 
 import type { Task } from "../../types/Task";
 
+type CalendarLocationState = {
+  selectedDate?: string;
+};
+
 function CalendarPage() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   // =========================
-  // 仮タスク
-  // HomePageと同じTask型を使用
+  // 仮タスクデータ
+  // 後でAPIから取得
   // =========================
 
   const tasks: Task[] = [
@@ -22,81 +30,100 @@ function CalendarPage() {
       id: 1,
       priority: "高",
       name: "Javaの課題を解く",
-      deadline: "今日 12:00",
+      date: "2026-08-15",
+      deadline: "2026-08-15T12:00",
       completed: false,
     },
     {
       id: 2,
       priority: "中",
       name: "ポートフォリオ作成",
-      deadline: "今日 14:00",
+      date: "2026-08-15",
+      deadline: "2026-08-15T14:00",
       completed: false,
     },
     {
       id: 3,
       priority: "低",
       name: "筋トレ（腕・肩）",
-      deadline: "今日 18:00",
+      date: "2026-08-16",
+      deadline: "2026-08-16T18:00",
+      completed: false,
+    },
+    {
+      id: 4,
+      priority: "高",
+      name: "Task Quest開発",
+      date: "2026-08-20",
+      deadline: "2026-08-20T20:00",
       completed: false,
     },
   ];
 
   // =========================
-  // 現在の日付
+  // 戻ってきた日付を取得
   // =========================
+
+  const state =
+    location.state as CalendarLocationState | null;
 
   const today = new Date();
 
-  // 表示している月
-  const [currentDate, setCurrentDate] = useState(
-    new Date(today.getFullYear(), today.getMonth(), 1)
-  );
+  const initialDate = state?.selectedDate
+    ? new Date(`${state.selectedDate}T00:00:00`)
+    : today;
 
+  // =========================
+  // 表示している月
+  // =========================
+
+  const [currentDate, setCurrentDate] =
+    useState(
+      new Date(
+        initialDate.getFullYear(),
+        initialDate.getMonth(),
+        1
+      )
+    );
+
+  // =========================
   // 選択している日
-  const [selectedDate, setSelectedDate] = useState(
-    new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate()
-    )
-  );
+  // =========================
+
+  const [selectedDate, setSelectedDate] =
+    useState(initialDate);
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
   // =========================
-  // カレンダー情報
+  // カレンダー生成
   // =========================
 
-  // 今月の日数
   const daysInMonth = new Date(
     year,
     month + 1,
     0
   ).getDate();
 
-  // 今月1日の曜日
   const firstDayOfWeek = new Date(
     year,
     month,
     1
   ).getDay();
 
-  // カレンダーに表示する配列
   const calendarDays: (number | null)[] = [];
 
-  // 月初めの空白
   for (let i = 0; i < firstDayOfWeek; i++) {
     calendarDays.push(null);
   }
 
-  // 日付を追加
   for (let day = 1; day <= daysInMonth; day++) {
     calendarDays.push(day);
   }
 
   // =========================
-  // 前の月
+  // 前月
   // =========================
 
   const handlePrevMonth = () => {
@@ -110,7 +137,7 @@ function CalendarPage() {
   };
 
   // =========================
-  // 次の月
+  // 次月
   // =========================
 
   const handleNextMonth = () => {
@@ -167,27 +194,66 @@ function CalendarPage() {
     weekNames[selectedDate.getDay()];
 
   // =========================
-  // タスク追加
+  // YYYY-MM-DD に変換
   // =========================
 
-  const handleAddTask = () => {
-    navigate("/task/create");
+  const formatDate = (date: Date) => {
+    const y = date.getFullYear();
+
+    const m = String(
+      date.getMonth() + 1
+    ).padStart(2, "0");
+
+    const d = String(
+      date.getDate()
+    ).padStart(2, "0");
+
+    return `${y}-${m}-${d}`;
+  };
+
+  const selectedDateString =
+    formatDate(selectedDate);
+
+  // =========================
+  // 選択日のタスクだけ取得
+  // =========================
+
+  const selectedTasks = tasks.filter(
+    (task) =>
+      task.date === selectedDateString
+  );
+
+  // =========================
+  // タスク作成
+  // =========================
+
+  const handleCreateTask = () => {
+    navigate("/task/create", {
+      state: {
+        from: "/calendar",
+
+        // 作成するタスクの日付
+        date: selectedDateString,
+
+        // カレンダーに戻るときの日付
+        returnDate: selectedDateString,
+      },
+    });
   };
 
   return (
     <div className="calendarContainer">
 
       {/* タイトル */}
-
       <h1 className="calendarTitle">
         カレンダー
       </h1>
 
       {/* 月切り替え */}
-
       <div className="calendarHeader">
 
         <button
+          type="button"
           className="monthBtn"
           onClick={handlePrevMonth}
         >
@@ -199,6 +265,7 @@ function CalendarPage() {
         </h2>
 
         <button
+          type="button"
           className="monthBtn"
           onClick={handleNextMonth}
         >
@@ -208,8 +275,8 @@ function CalendarPage() {
       </div>
 
       {/* 曜日 */}
-
       <div className="weekRow">
+
         {weekNames.map((week) => (
           <div
             key={week}
@@ -218,10 +285,10 @@ function CalendarPage() {
             {week}
           </div>
         ))}
+
       </div>
 
       {/* カレンダー */}
-
       <div className="calendarGrid">
 
         {calendarDays.map((day, index) => {
@@ -237,6 +304,7 @@ function CalendarPage() {
 
           return (
             <button
+              type="button"
               key={day}
               className={
                 isSelectedDay(day)
@@ -254,12 +322,9 @@ function CalendarPage() {
 
       </div>
 
-      {/* 区切り線 */}
+      <div className="calendarLine" />
 
-      <div className="calendarLine"></div>
-
-      {/* 選択した日のタスク */}
-
+      {/* 選択中の日付 */}
       <h3 className="calendarTaskTitle">
         {selectedDate.getFullYear()}年
         {selectedDate.getMonth() + 1}月
@@ -267,20 +332,24 @@ function CalendarPage() {
         （{selectedWeek}）のタスク
       </h3>
 
-      {/* HomePageと同じTaskList */}
-
-      <TaskList tasks={tasks} />
+      {/* タスク一覧 */}
+      {selectedTasks.length > 0 ? (
+        <TaskList tasks={selectedTasks} />
+      ) : (
+        <p className="noTaskMessage">
+          この日のタスクはありません
+        </p>
+      )}
 
       {/* タスク追加 */}
-
       <button
+        type="button"
         className="add_btn"
-        onClick={handleAddTask}
+        onClick={handleCreateTask}
+        aria-label="タスクを追加"
       >
         ＋
       </button>
-
-      {/* BottomNav */}
 
       <BottomNav />
 

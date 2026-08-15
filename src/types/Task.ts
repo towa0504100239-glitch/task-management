@@ -1,7 +1,10 @@
 export type Task = {
   id: number;
-  name: string;
-  deadline: string;
   priority: "高" | "中" | "低";
+  name: string;
+
+  date: string;
+  deadline?: string;
+
   completed: boolean;
 };

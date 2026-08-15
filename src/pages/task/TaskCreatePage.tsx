@@ -1,19 +1,85 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+
+import {
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+
 import "./TaskCreatePage.css";
 
 type Priority = "高" | "中" | "低";
 
+type LocationState = {
+  from?: string;
+  date?: string;
+  returnDate?: string;
+};
+
 function TaskCreatePage() {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const [title, setTitle] = useState("");
-  const [detail, setDetail] = useState("");
-  const [date, setDate] = useState("");
-  const [deadline, setDeadline] = useState("");
-  const [priority, setPriority] = useState<Priority>("高");
+  // =========================
+  // 遷移元から渡された情報
+  // =========================
+
+  const state =
+    location.state as LocationState | null;
+
+  const returnPath =
+    state?.from ?? "/task";
+
+  // =========================
+  // 入力内容
+  // =========================
+
+  const [title, setTitle] =
+    useState("");
+
+  const [detail, setDetail] =
+    useState("");
+
+  // カレンダーから来た場合は
+  // 選択していた日付を初期値にする
+  const [date, setDate] =
+    useState(state?.date ?? "");
+
+  const [deadline, setDeadline] =
+    useState("");
+
+  const [priority, setPriority] =
+    useState<Priority>("高");
+
+  // =========================
+  // 元の画面に戻る
+  // =========================
+
+  const goBack = () => {
+
+    // カレンダーから来た場合
+    if (returnPath === "/calendar") {
+
+      navigate("/calendar", {
+        state: {
+          selectedDate:
+            state?.returnDate ??
+            state?.date,
+        },
+      });
+
+      return;
+    }
+
+    // ホーム・タスク一覧など
+    navigate(returnPath);
+  };
+
+  // =========================
+  // 保存
+  // =========================
 
   const handleSave = () => {
+
     const task = {
       title,
       detail,
@@ -22,21 +88,43 @@ function TaskCreatePage() {
       priority,
     };
 
-    console.log("作成したタスク:", task);
-    navigate("/task");
+    console.log(
+      "作成したタスク:",
+      task
+    );
+
+    // TODO:
+    // 後でSpring BootへPOST
+
+    goBack();
+  };
+
+  // =========================
+  // ×
+  // =========================
+
+  const handleClose = () => {
+    goBack();
   };
 
   return (
     <div className="taskCreatePage">
+
+      {/* ヘッダー */}
       <header className="taskCreateHeader">
+
         <button
           type="button"
           className="closeButton"
-          onClick={() => navigate("/task")}
+          onClick={handleClose}
         >
           ×
         </button>
-        <h1>タスク作成</h1>
+
+        <h1>
+          タスク作成
+        </h1>
+
         <button
           type="button"
           className="saveButton"
@@ -44,94 +132,142 @@ function TaskCreatePage() {
         >
           保存
         </button>
+
       </header>
+
+      {/* フォーム */}
       <main className="taskCreateContent">
+
+        {/* タイトル */}
         <div className="formGroup">
+
           <label htmlFor="title">
             タイトル
           </label>
+
           <input
             id="title"
             type="text"
             placeholder="タイトルを入力"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) =>
+              setTitle(e.target.value)
+            }
           />
+
         </div>
+
+        {/* 詳細 */}
         <div className="formGroup">
+
           <label htmlFor="detail">
             詳細
           </label>
+
           <textarea
             id="detail"
             placeholder="詳細を入力"
             value={detail}
-            onChange={(e) => setDetail(e.target.value)}
+            onChange={(e) =>
+              setDetail(e.target.value)
+            }
           />
+
         </div>
+
+        {/* 日付 */}
         <div className="formGroup">
+
           <label htmlFor="date">
             日付
           </label>
+
           <input
             id="date"
             type="date"
             value={date}
-            onChange={(e) => setDate(e.target.value)}
+            onChange={(e) =>
+              setDate(e.target.value)
+            }
           />
+
         </div>
+
+        {/* 期限 */}
         <div className="formGroup">
+
           <label htmlFor="deadline">
             期限（任意）
           </label>
+
           <input
             id="deadline"
             type="datetime-local"
             value={deadline}
-            onChange={(e) => setDeadline(e.target.value)}
+            onChange={(e) =>
+              setDeadline(e.target.value)
+            }
           />
+
         </div>
+
+        {/* 優先度 */}
         <div className="formGroup">
+
           <p className="priorityLabel">
             優先度
           </p>
+
           <div className="priorityButtons">
+
             <button
               type="button"
-              className={
+              className={`priorityButton high ${
                 priority === "高"
-                  ? "priorityButton high active"
-                  : "priorityButton high"
+                  ? "active"
+                  : ""
+              }`}
+              onClick={() =>
+                setPriority("高")
               }
-              onClick={() => setPriority("高")}
             >
               高
             </button>
+
             <button
               type="button"
-              className={
+              className={`priorityButton middle ${
                 priority === "中"
-                  ? "priorityButton middle active"
-                  : "priorityButton middle"
+                  ? "active"
+                  : ""
+              }`}
+              onClick={() =>
+                setPriority("中")
               }
-              onClick={() => setPriority("中")}
             >
               中
             </button>
+
             <button
               type="button"
-              className={
+              className={`priorityButton low ${
                 priority === "低"
-                  ? "priorityButton low active"
-                  : "priorityButton low"
+                  ? "active"
+                  : ""
+              }`}
+              onClick={() =>
+                setPriority("低")
               }
-              onClick={() => setPriority("低")}
             >
               低
             </button>
+
           </div>
+
         </div>
+
       </main>
+
     </div>
   );
 }
