@@ -1,14 +1,29 @@
 import TaskForm from "../../components/TaskForm";
+import "./TaskCreatePage.css";
 
-export default function TaskCreatePage() {
+function TaskCreatePage() {
+
+  const handleCreate = () => {
+    console.log("タスクを作成");
+  };
+
   return (
-    <div>
-      <h1>タスク作成</h1>
-      <TaskForm
-        onSubmit={(task) => {
-            console.log(task);
-        }}
-        />
+    <div className="taskCreatePage">
+
+      <div className="taskCreateHeader">
+        <button>×</button>
+
+        <h1>タスク作成</h1>
+
+        <button>
+          保存
+        </button>
+      </div>
+
+      <TaskForm onSubmit={handleCreate} />
+
     </div>
   );
 }
+
+export default TaskCreatePage;

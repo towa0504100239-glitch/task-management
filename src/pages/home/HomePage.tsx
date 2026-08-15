@@ -11,11 +11,6 @@ import type { Task } from "../../types/Task";
 function HomePage() {
   const navigate = useNavigate();
 
-  // =========================
-  // 仮タスク
-  // 後でAPIから取得する
-  // =========================
-
   const tasks: Task[] = [
     {
       id: 1,
@@ -33,10 +28,6 @@ function HomePage() {
     },
   ];
 
-  // =========================
-  // 今日の日付
-  // =========================
-
   const today = new Date();
 
   const weekNames = [
@@ -53,18 +44,12 @@ function HomePage() {
   const day = today.getDate();
   const week = weekNames[today.getDay()];
 
-  // =========================
-  // タスク追加
-  // =========================
-
   const handleAddTask = () => {
     navigate("/task/create");
   };
 
   return (
     <div className="container">
-
-      {/* レベル */}
 
       <div className="levelWrapper">
         <h1 className="level">
@@ -76,19 +61,14 @@ function HomePage() {
         </p>
       </div>
 
-      {/* 経験値バー */}
 
       <div className="xpBar">
         <div className="xpProgress"></div>
       </div>
 
-      {/* 今日の日付 */}
-
       <h2 className="day">
         {month}月{day}日（{week}）
       </h2>
-
-      {/* 表示期間 */}
 
       <div className="daySelect">
 
@@ -110,15 +90,11 @@ function HomePage() {
 
       </div>
 
-      {/* タスク */}
-
       <h3 className="taskTitle">
         今日のタスク（優先順位順）
       </h3>
 
       <TaskList tasks={tasks} />
-
-      {/* タスク追加ボタン */}
 
       <button
         className="add_btn"
@@ -127,8 +103,6 @@ function HomePage() {
       >
         ＋
       </button>
-
-      {/* 下部ナビ */}
 
       <BottomNav />
 

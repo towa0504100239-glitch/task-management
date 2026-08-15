@@ -3,6 +3,10 @@ import RegisterPage from "./pages/auth/RegisterPage";
 import LoginPage from "./pages/auth/LoginPage";
 import HomePage from "./pages/home/HomePage";
 import CalendarPage from "./pages/calendar/CalendarPage";
+import TaskPage from "./pages/task/TaskPage";
+import TaskCreatePage from "./pages/task/TaskCreatePage";
+import TaskDetailPage from "./pages/task/TaskDetailPage";
+import TaskEditPage from "./pages/task/TaskEditPage";
 function App() {
   return (
     <BrowserRouter>
@@ -11,6 +15,10 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/calendar" element={<CalendarPage />} />
+        <Route path="/task" element={<TaskPage />}/>
+        <Route path="/task/create" element={<TaskCreatePage />}/>
+        <Route path="/task/:id" element={<TaskDetailPage />}/>
+        <Route path="/task/:id/edit" element={<TaskEditPage />}/>
       </Routes>
     </BrowserRouter>
   );
