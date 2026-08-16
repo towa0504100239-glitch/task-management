@@ -1,56 +1,70 @@
 import { useState } from "react";
 import {
+  useLocation,
   useNavigate,
   useParams,
 } from "react-router-dom";
+
+import type {
+  Priority,
+  Task,
+} from "../../types/Task";
+
 import "./TaskEditPage.css";
 
-type Priority = "高" | "中" | "低";
-
-type Task = {
-  id: number;
-  title: string;
-  detail: string;
-  date: string;
-  deadline: string;
-  priority: Priority;
+type EditLocationState = {
+  task?: Task;
 };
 
 function TaskEditPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { id } = useParams();
 
-  const [title, setTitle] = useState(
-    "応用情報の勉強"
+  const state =
+    location.state as EditLocationState | null;
+
+  const task = state?.task;
+
+  const [name, setName] = useState(
+    task?.name ?? ""
   );
 
-  const [detail, setDetail] = useState(
-    "テクノロジ系の問題を50問解く"
-  );
+  const [detail, setDetail] =
+    useState(
+      task?.detail ?? ""
+    );
 
-  const [date, setDate] = useState(
-    "2026-08-15"
-  );
+  const [date, setDate] =
+    useState(
+      task?.date ?? ""
+    );
 
-  const [deadline, setDeadline] = useState(
-    "2026-08-15T23:59"
-  );
+  const [deadline, setDeadline] =
+    useState(
+      task?.deadline ?? ""
+    );
 
   const [priority, setPriority] =
-    useState<Priority>("高");
+    useState<Priority>(
+      task?.priority ?? "中"
+    );
 
   const handleBack = () => {
-    navigate(`/task/${id}`);
+    navigate(-1);
   };
 
   const handleSave = () => {
     const updatedTask: Task = {
       id: Number(id),
-      title,
+      name,
       detail,
       date,
-      deadline,
+      deadline:
+        deadline || undefined,
       priority,
+      completed:
+        task?.completed ?? false,
     };
 
     console.log(
@@ -58,7 +72,7 @@ function TaskEditPage() {
       updatedTask
     );
 
-    navigate(`/task/${id}`);
+    navigate(-1);
   };
 
   return (
@@ -85,17 +99,19 @@ function TaskEditPage() {
 
       <main className="taskEditContent">
         <div className="taskEditFormGroup">
-          <label htmlFor="title">
+          <label htmlFor="name">
             タイトル
           </label>
 
           <input
-            id="title"
+            id="name"
             type="text"
             placeholder="タイトルを入力"
-            value={title}
+            value={name}
             onChange={(e) =>
-              setTitle(e.target.value)
+              setName(
+                e.target.value
+              )
             }
           />
         </div>
@@ -110,7 +126,9 @@ function TaskEditPage() {
             placeholder="詳細を入力"
             value={detail}
             onChange={(e) =>
-              setDetail(e.target.value)
+              setDetail(
+                e.target.value
+              )
             }
           />
         </div>
@@ -125,7 +143,9 @@ function TaskEditPage() {
             type="date"
             value={date}
             onChange={(e) =>
-              setDate(e.target.value)
+              setDate(
+                e.target.value
+              )
             }
           />
         </div>
@@ -140,7 +160,9 @@ function TaskEditPage() {
             type="datetime-local"
             value={deadline}
             onChange={(e) =>
-              setDeadline(e.target.value)
+              setDeadline(
+                e.target.value
+              )
             }
           />
         </div>

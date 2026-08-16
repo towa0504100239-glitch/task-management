@@ -9,6 +9,7 @@ import {
 
 import BottomNav from "../../components/BottomNav";
 import TaskList from "../../components/TaskList";
+import TaskDetailSheet from "../../components/TaskDetailSheet";
 
 import type { Task } from "../../types/Task";
 
@@ -20,62 +21,63 @@ function CalendarPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // =========================
-  // 仮タスクデータ
-  // 後でAPIから取得
-  // =========================
-
-  const tasks: Task[] = [
-    {
-      id: 1,
-      priority: "高",
-      name: "Javaの課題を解く",
-      date: "2026-08-15",
-      deadline: "2026-08-15T12:00",
-      completed: false,
-    },
-    {
-      id: 2,
-      priority: "中",
-      name: "ポートフォリオ作成",
-      date: "2026-08-15",
-      deadline: "2026-08-15T14:00",
-      completed: false,
-    },
-    {
-      id: 3,
-      priority: "低",
-      name: "筋トレ（腕・肩）",
-      date: "2026-08-16",
-      deadline: "2026-08-16T18:00",
-      completed: false,
-    },
-    {
-      id: 4,
-      priority: "高",
-      name: "Task Quest開発",
-      date: "2026-08-20",
-      deadline: "2026-08-20T20:00",
-      completed: false,
-    },
-  ];
-
-  // =========================
-  // 戻ってきた日付を取得
-  // =========================
+  const [tasks, setTasks] =
+    useState<Task[]>([
+      {
+        id: 1,
+        priority: "高",
+        name: "Javaの課題を解く",
+        detail:
+          "Javaの課題を進める",
+        date: "2026-08-15",
+        deadline:
+          "2026-08-15T12:00",
+        completed: false,
+      },
+      {
+        id: 2,
+        priority: "中",
+        name: "ポートフォリオ作成",
+        detail:
+          "ポートフォリオを作成する",
+        date: "2026-08-15",
+        deadline:
+          "2026-08-15T14:00",
+        completed: false,
+      },
+      {
+        id: 3,
+        priority: "低",
+        name: "筋トレ（腕・肩）",
+        date: "2026-08-16",
+        deadline:
+          "2026-08-16T18:00",
+        completed: false,
+      },
+      {
+        id: 4,
+        priority: "高",
+        name: "Task Quest開発",
+        detail:
+          "Task Questの開発を進める",
+        date: "2026-08-20",
+        deadline:
+          "2026-08-20T20:00",
+        completed: false,
+      },
+    ]);
 
   const state =
     location.state as CalendarLocationState | null;
 
   const today = new Date();
 
-  const initialDate = state?.selectedDate
-    ? new Date(`${state.selectedDate}T00:00:00`)
-    : today;
-
-  // =========================
-  // 表示している月
-  // =========================
+  const initialDate =
+    state?.selectedDate
+      ? new Date(
+          `${state.selectedDate}T00:00:00`
+        )
+      : today;
 
   const [currentDate, setCurrentDate] =
     useState(
@@ -86,19 +88,17 @@ function CalendarPage() {
       )
     );
 
-  // =========================
-  // 選択している日
-  // =========================
-
   const [selectedDate, setSelectedDate] =
     useState(initialDate);
 
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
+  const [selectedTask, setSelectedTask] =
+    useState<Task | null>(null);
 
-  // =========================
-  // カレンダー生成
-  // =========================
+  const year =
+    currentDate.getFullYear();
+
+  const month =
+    currentDate.getMonth();
 
   const daysInMonth = new Date(
     year,
@@ -112,19 +112,24 @@ function CalendarPage() {
     1
   ).getDay();
 
-  const calendarDays: (number | null)[] = [];
+  const calendarDays:
+    (number | null)[] = [];
 
-  for (let i = 0; i < firstDayOfWeek; i++) {
+  for (
+    let i = 0;
+    i < firstDayOfWeek;
+    i++
+  ) {
     calendarDays.push(null);
   }
 
-  for (let day = 1; day <= daysInMonth; day++) {
+  for (
+    let day = 1;
+    day <= daysInMonth;
+    day++
+  ) {
     calendarDays.push(day);
   }
-
-  // =========================
-  // 前月
-  // =========================
 
   const handlePrevMonth = () => {
     setCurrentDate(
@@ -136,10 +141,6 @@ function CalendarPage() {
     );
   };
 
-  // =========================
-  // 次月
-  // =========================
-
   const handleNextMonth = () => {
     setCurrentDate(
       new Date(
@@ -150,11 +151,9 @@ function CalendarPage() {
     );
   };
 
-  // =========================
-  // 日付選択
-  // =========================
-
-  const handleSelectDay = (day: number) => {
+  const handleSelectDay = (
+    day: number
+  ) => {
     setSelectedDate(
       new Date(
         year,
@@ -164,21 +163,17 @@ function CalendarPage() {
     );
   };
 
-  // =========================
-  // 選択中の日付判定
-  // =========================
-
-  const isSelectedDay = (day: number) => {
+  const isSelectedDay = (
+    day: number
+  ) => {
     return (
-      selectedDate.getFullYear() === year &&
-      selectedDate.getMonth() === month &&
+      selectedDate.getFullYear() ===
+        year &&
+      selectedDate.getMonth() ===
+        month &&
       selectedDate.getDate() === day
     );
   };
-
-  // =========================
-  // 曜日
-  // =========================
 
   const weekNames = [
     "日",
@@ -193,12 +188,11 @@ function CalendarPage() {
   const selectedWeek =
     weekNames[selectedDate.getDay()];
 
-  // =========================
-  // YYYY-MM-DD に変換
-  // =========================
-
-  const formatDate = (date: Date) => {
-    const y = date.getFullYear();
+  const formatDate = (
+    date: Date
+  ) => {
+    const y =
+      date.getFullYear();
 
     const m = String(
       date.getMonth() + 1
@@ -214,48 +208,71 @@ function CalendarPage() {
   const selectedDateString =
     formatDate(selectedDate);
 
-  // =========================
-  // 選択日のタスクだけ取得
-  // =========================
+  const selectedTasks =
+    tasks.filter(
+      (task) =>
+        task.date ===
+        selectedDateString
+    );
 
-  const selectedTasks = tasks.filter(
-    (task) =>
-      task.date === selectedDateString
+  const handleToggleTask = (
+    id: number
+  ) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === id
+          ? {
+              ...task,
+              completed:
+                !task.completed,
+            }
+          : task
+      )
+    );
+  };
+
+  const sortedSelectedTasks = [
+    ...selectedTasks,
+  ].sort(
+    (a, b) =>
+      Number(a.completed) -
+      Number(b.completed)
   );
 
-  // =========================
-  // タスク作成
-  // =========================
+  const handleSelectTask = (
+    task: Task
+  ) => {
+    setSelectedTask(task);
+  };
+
+  const handleCloseTaskDetail = () => {
+    setSelectedTask(null);
+  };
 
   const handleCreateTask = () => {
     navigate("/task/create", {
       state: {
         from: "/calendar",
-
-        // 作成するタスクの日付
         date: selectedDateString,
-
-        // カレンダーに戻るときの日付
-        returnDate: selectedDateString,
+        returnDate:
+          selectedDateString,
       },
     });
   };
 
   return (
     <div className="calendarContainer">
-
-      {/* タイトル */}
       <h1 className="calendarTitle">
         カレンダー
       </h1>
 
-      {/* 月切り替え */}
       <div className="calendarHeader">
-
         <button
           type="button"
           className="monthBtn"
-          onClick={handlePrevMonth}
+          onClick={
+            handlePrevMonth
+          }
         >
           ＜
         </button>
@@ -267,16 +284,15 @@ function CalendarPage() {
         <button
           type="button"
           className="monthBtn"
-          onClick={handleNextMonth}
+          onClick={
+            handleNextMonth
+          }
         >
           ＞
         </button>
-
       </div>
 
-      {/* 曜日 */}
       <div className="weekRow">
-
         {weekNames.map((week) => (
           <div
             key={week}
@@ -285,63 +301,71 @@ function CalendarPage() {
             {week}
           </div>
         ))}
-
       </div>
 
-      {/* カレンダー */}
       <div className="calendarGrid">
+        {calendarDays.map(
+          (day, index) => {
+            if (day === null) {
+              return (
+                <div
+                  key={`empty-${index}`}
+                  className="emptyDay"
+                />
+              );
+            }
 
-        {calendarDays.map((day, index) => {
-
-          if (day === null) {
             return (
-              <div
-                key={`empty-${index}`}
-                className="emptyDay"
-              />
+              <button
+                type="button"
+                key={day}
+                className={
+                  isSelectedDay(day)
+                    ? "calendarDay selectedDay"
+                    : "calendarDay"
+                }
+                onClick={() =>
+                  handleSelectDay(
+                    day
+                  )
+                }
+              >
+                {day}
+              </button>
             );
           }
-
-          return (
-            <button
-              type="button"
-              key={day}
-              className={
-                isSelectedDay(day)
-                  ? "calendarDay selectedDay"
-                  : "calendarDay"
-              }
-              onClick={() =>
-                handleSelectDay(day)
-              }
-            >
-              {day}
-            </button>
-          );
-        })}
-
+        )}
       </div>
 
       <div className="calendarLine" />
 
-      {/* 選択中の日付 */}
       <h3 className="calendarTaskTitle">
-        {selectedDate.getFullYear()}年
-        {selectedDate.getMonth() + 1}月
+        {selectedDate.getFullYear()}
+        年
+        {selectedDate.getMonth() + 1}
+        月
         {selectedDate.getDate()}日
         （{selectedWeek}）のタスク
       </h3>
 
-      {/* タスク一覧 */}
       {selectedTasks.length > 0 ? (
-        <TaskList tasks={selectedTasks} />
+        <TaskList
+          tasks={
+            sortedSelectedTasks
+          }
+          onToggleTask={
+            handleToggleTask
+          }
+          onSelectTask={
+            handleSelectTask
+          }
+        />
       ) : (
         <p className="noTaskMessage">
           この日のタスクはありません
         </p>
       )}
 
-      {/* タスク追加 */}
       <button
         type="button"
         className="add_btn"
@@ -351,8 +375,14 @@ function CalendarPage() {
         ＋
       </button>
 
-      <BottomNav />
+      <TaskDetailSheet
+        task={selectedTask}
+        onClose={
+          handleCloseTaskDetail
+        }
+      />
 
+      <BottomNav />
     </div>
   );
 }

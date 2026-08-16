@@ -106,11 +106,13 @@
 .add_btn {
   position: absolute;
   top: auto;
-  bottom: 100px;
+  bottom: 190px;
   left: auto;
   right: 20px;
   width: 58px;
   height: 58px;
+  min-height: 58px;
+  min-width: 58px;
   padding: 0;
   border: none;
   border-radius: 50%;
@@ -125,6 +127,7 @@
   box-shadow: 0 4px 12px rgba(91, 91, 255, 0.35);
   z-index: 10;
   margin: 0 0 0 auto;
+  line-height:1;
 }
 .add_btn:hover {
   background-color: #4d4df0;

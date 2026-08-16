@@ -1,56 +1,93 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import BottomNav from "../../components/BottomNav";
+import TaskList from "../../components/TaskList";
+import TaskDetailSheet from "../../components/TaskDetailSheet";
+
+import type { Task } from "../../types/Task";
+
 import "./TaskPage.css";
-
-type Priority = "高" | "中" | "低";
-
-type Task = {
-  id: number;
-  title: string;
-  date: string;
-  deadline?: string;
-  priority: Priority;
-  completed: boolean;
-};
 
 function TaskPage() {
   const navigate = useNavigate();
 
-  const tasks: Task[] = [
-    {
-      id: 1,
-      title: "応用情報の勉強",
-      date: "2026/08/15",
-      deadline: "23:59",
-      priority: "高",
-      completed: false,
-    },
-    {
-      id: 2,
-      title: "Task Questの開発",
-      date: "2026/08/16",
-      deadline: "18:00",
-      priority: "中",
-      completed: false,
-    },
-    {
-      id: 3,
-      title: "資料を確認する",
-      date: "2026/08/17",
-      priority: "低",
-      completed: true,
-    },
-  ];
+  const [tasks, setTasks] =
+    useState<Task[]>([
+      {
+        id: 1,
+        name: "応用情報の勉強",
+        detail:
+          "テクノロジ系の問題を50問解く",
+        date: "2026-08-15",
+        deadline:
+          "2026-08-15T23:59",
+        priority: "高",
+        completed: false,
+      },
+      {
+        id: 2,
+        name: "Task Questの開発",
+        detail:
+          "タスク詳細機能を実装する",
+        date: "2026-08-16",
+        deadline:
+          "2026-08-16T18:00",
+        priority: "中",
+        completed: false,
+      },
+      {
+        id: 3,
+        name: "資料を確認する",
+        detail:
+          "必要な資料を確認する",
+        date: "2026-08-17",
+        priority: "低",
+        completed: true,
+      },
+    ]);
 
-  const getPriorityClass = (priority: Priority) => {
-    switch (priority) {
-      case "高":
-        return "high";
-      case "中":
-        return "middle";
-      case "低":
-        return "low";
-    }
+  const [selectedTask, setSelectedTask] =
+    useState<Task | null>(null);
+
+  const handleToggleTask = (
+    id: number
+  ) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === id
+          ? {
+              ...task,
+              completed:
+                !task.completed,
+            }
+          : task
+      )
+    );
+  };
+
+  const sortedTasks = [...tasks].sort(
+    (a, b) =>
+      Number(a.completed) -
+      Number(b.completed)
+  );
+
+  const handleSelectTask = (
+    task: Task
+  ) => {
+    setSelectedTask(task);
+  };
+
+  const handleCloseTaskDetail = () => {
+    setSelectedTask(null);
+  };
+
+  const handleCreateTask = () => {
+    navigate("/task/create", {
+      state: {
+        from: "/task",
+      },
+    });
   };
 
   return (
@@ -63,82 +100,57 @@ function TaskPage() {
         <div className="taskTitleArea">
           <div>
             <h2>タスク一覧</h2>
-            <p>{tasks.length}件のタスク</p>
+            <p>
+              {tasks.length}
+              件のタスク
+            </p>
           </div>
 
           <button
             type="button"
             className="addTaskButton"
-            onClick={() =>
-              navigate("/task/create", {
-                state: {
-                  from: "/task",
-                },
-              })
+            onClick={
+              handleCreateTask
             }
           >
             ＋
           </button>
         </div>
 
-        <div className="taskList">
-          {tasks.length === 0 ? (
-            <div className="emptyTask">
-              <p>タスクがありません</p>
+        {tasks.length === 0 ? (
+          <div className="emptyTask">
+            <p>
+              タスクがありません
+            </p>
 
-              <button
-                type="button"
-                onClick={() =>
-                  navigate("/task/create", {
-                    state: {
-                      from: "/task",
-                    },
-                  })
-                }
-              >
-                タスクを追加
-              </button>
-            </div>
-          ) : (
-            tasks.map((task) => (
-              <button
-                type="button"
-                key={task.id}
-                className={`taskItem ${
-                  task.completed ? "completed" : ""
-                }`}
-                onClick={() =>
-                  navigate(`/task/${task.id}`)
-                }
-              >
-                <div className="taskItemTop">
-                  <span
-                    className={`priorityBadge ${getPriorityClass(
-                      task.priority
-                    )}`}
-                  >
-                    {task.priority}
-                  </span>
-
-                  <span className="taskName">
-                    {task.title}
-                  </span>
-                </div>
-
-                <div className="taskItemBottom">
-                  <span>{task.date}</span>
-
-                  {task.deadline && (
-                    <span>
-                      期限 {task.deadline}
-                    </span>
-                  )}
-                </div>
-              </button>
-            ))
-          )}
-        </div>
+            <button
+              type="button"
+              onClick={
+                handleCreateTask
+              }
+            >
+              タスクを追加
+            </button>
+          </div>
+        ) : (
+          <TaskList
+            tasks={sortedTasks}
+            onToggleTask={
+              handleToggleTask
+            }
+            onSelectTask={
+              handleSelectTask
+            }
+          />
+        )}
       </main>
+
+      <TaskDetailSheet
+        task={selectedTask}
+        onClose={
+          handleCloseTaskDetail
+        }
+      />
 
       <BottomNav />
     </div>

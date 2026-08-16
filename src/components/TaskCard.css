@@ -1,0 +1,13 @@
+.task {
+  cursor: pointer;
+}
+
+.task.completed .taskName {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.task.completed .taskTime {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
