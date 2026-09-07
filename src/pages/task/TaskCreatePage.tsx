@@ -4,6 +4,8 @@ import {
   useNavigate,
 } from "react-router-dom";
 import "./TaskCreatePage.css";
+import { useTasks } from "../../context/TaskContext";
+import type { Task } from "../../types/Task";
 
 type Priority = "高" | "中" | "低";
 
@@ -12,10 +14,25 @@ type LocationState = {
   date?: string;
   returnDate?: string;
 };
+  const getToday = () => {
+  const today = new Date();
+
+  const year = today.getFullYear();
+  const month = String(
+    today.getMonth() + 1
+  ).padStart(2, "0");
+  const day = String(
+    today.getDate()
+  ).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};
 
 function TaskCreatePage() {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const { addTask } = useTasks();
 
   const state =
     location.state as LocationState | null;
@@ -30,7 +47,7 @@ function TaskCreatePage() {
     useState("");
 
   const [date, setDate] =
-    useState(state?.date ?? "");
+  useState(state?.date ?? getToday());
 
   const [deadline, setDeadline] =
     useState("");
@@ -54,22 +71,47 @@ function TaskCreatePage() {
     navigate(returnPath);
   };
 
-  const handleSave = () => {
-    const task = {
-      title,
-      detail,
-      date,
-      deadline,
-      priority,
-    };
+ const handleSave = async () => {
+  if (!title.trim()) {
+  alert("タイトルを入力してください");
+  return;
+}
+  const task = {
+    name: title.trim(),
+    detail,
+    date,
+    deadline: deadline || null,
+    priority,
+    completed: false,
+  };
 
-    console.log(
-      "作成したタスク:",
-      task
+  try {
+    const response = await fetch(
+      "http://localhost:8080/api/tasks",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(task),
+      }
     );
 
+    if (!response.ok) {
+      throw new Error(
+        "タスクの作成に失敗しました"
+      );
+    }
+
+   const createdTask: Task =
+  await response.json();
+
+    addTask(createdTask);
     goBack();
-  };
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   const handleClose = () => {
     goBack();
@@ -104,6 +146,7 @@ function TaskCreatePage() {
           <input
             id="title"
             type="text"
+            required
             placeholder="タイトルを入力"
             value={title}
             onChange={(e) =>
@@ -143,7 +186,7 @@ function TaskCreatePage() {
           </label>
           <input
             id="deadline"
-            type="datetime-local"
+            type="time"
             value={deadline}
             onChange={(e) =>
               setDeadline(e.target.value)

@@ -1,6 +1,7 @@
 import {
   createContext,
   useContext,
+  useEffect,
   useState,
   type ReactNode,
 } from "react";
@@ -12,6 +13,7 @@ type TaskContextType = {
   toggleTask: (id: number) => void;
   updateTask: (updatedTask: Task) => void;
   addTask: (task: Task) => void;
+  deleteTask: (id: number) => void;
 };
 
 const TaskContext =
@@ -24,47 +26,73 @@ export function TaskProvider({
 }: {
   children: ReactNode;
 }) {
-  const [tasks, setTasks] = useState<Task[]>([
-    {
-      id: 1,
-      name: "応用情報の勉強",
-      detail: "テクノロジ系の問題を50問解く",
-      date: "2026-08-15",
-      deadline: "2026-08-15T23:59",
-      priority: "高",
-      completed: false,
-    },
-    {
-      id: 2,
-      name: "Task Questの開発",
-      detail: "タスク詳細機能を実装する",
-      date: "2026-08-16",
-      deadline: "2026-08-16T18:00",
-      priority: "中",
-      completed: false,
-    },
-    {
-      id: 3,
-      name: "資料を確認する",
-      detail: "必要な資料を確認する",
-      date: "2026-08-17",
-      priority: "低",
-      completed: true,
-    },
-  ]);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
-  const toggleTask = (id: number) => {
+  useEffect(() => {
+    fetch("http://localhost:8080/api/tasks")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            "タスクの取得に失敗しました"
+          );
+        }
+
+        return response.json();
+      })
+      .then((data: Task[]) => {
+        setTasks(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+ const toggleTask = async (id: number) => {
+  const task = tasks.find(
+    (task) => task.id === id
+  );
+
+  if (!task) {
+    return;
+  }
+
+  const updatedTask: Task = {
+    ...task,
+    completed: !task.completed,
+  };
+
+  try {
+    const response = await fetch(
+      `http://localhost:8080/api/tasks/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedTask),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        "タスクの更新に失敗しました"
+      );
+    }
+
+    const savedTask: Task =
+      await response.json();
+
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
         task.id === id
-          ? {
-              ...task,
-              completed: !task.completed,
-            }
+          ? savedTask
           : task
       )
     );
-  };
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   const updateTask = (updatedTask: Task) => {
     setTasks((prevTasks) =>
@@ -83,6 +111,28 @@ export function TaskProvider({
     ]);
   };
 
+  const deleteTask = (id: number) => {
+    fetch(`http://localhost:8080/api/tasks/${id}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            "タスクの削除に失敗しました"
+          );
+        }
+
+        setTasks((prevTasks) =>
+          prevTasks.filter(
+            (task) => task.id !== id
+          )
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <TaskContext.Provider
       value={{
@@ -90,6 +140,7 @@ export function TaskProvider({
         toggleTask,
         updateTask,
         addTask,
+        deleteTask,
       }}
     >
       {children}

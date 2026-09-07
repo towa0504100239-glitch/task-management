@@ -1,6 +1,6 @@
 import "../../index.css";
 import "./CalendarPage.css";
-
+import { useTasks } from "../../context/TaskContext";
 import { useState } from "react";
 import {
   useLocation,
@@ -21,51 +21,11 @@ function CalendarPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [tasks, setTasks] =
-    useState<Task[]>([
-      {
-        id: 1,
-        priority: "高",
-        name: "Javaの課題を解く",
-        detail:
-          "Javaの課題を進める",
-        date: "2026-08-15",
-        deadline:
-          "2026-08-15T12:00",
-        completed: false,
-      },
-      {
-        id: 2,
-        priority: "中",
-        name: "ポートフォリオ作成",
-        detail:
-          "ポートフォリオを作成する",
-        date: "2026-08-15",
-        deadline:
-          "2026-08-15T14:00",
-        completed: false,
-      },
-      {
-        id: 3,
-        priority: "低",
-        name: "筋トレ（腕・肩）",
-        date: "2026-08-16",
-        deadline:
-          "2026-08-16T18:00",
-        completed: false,
-      },
-      {
-        id: 4,
-        priority: "高",
-        name: "Task Quest開発",
-        detail:
-          "Task Questの開発を進める",
-        date: "2026-08-20",
-        deadline:
-          "2026-08-20T20:00",
-        completed: false,
-      },
-    ]);
+ const {
+  tasks,
+  toggleTask,
+  deleteTask,
+} = useTasks();
 
   const state =
     location.state as CalendarLocationState | null;
@@ -215,21 +175,6 @@ function CalendarPage() {
         selectedDateString
     );
 
-  const handleToggleTask = (
-    id: number
-  ) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === id
-          ? {
-              ...task,
-              completed:
-                !task.completed,
-            }
-          : task
-      )
-    );
-  };
 
   const sortedSelectedTasks = [
     ...selectedTasks,
@@ -349,16 +294,10 @@ function CalendarPage() {
       </h3>
 
       {selectedTasks.length > 0 ? (
-        <TaskList
-          tasks={
-            sortedSelectedTasks
-          }
-          onToggleTask={
-            handleToggleTask
-          }
-          onSelectTask={
-            handleSelectTask
-          }
+       <TaskList
+          tasks={sortedSelectedTasks}
+          onToggleTask={toggleTask}
+          onSelectTask={handleSelectTask}
         />
       ) : (
         <p className="noTaskMessage">
@@ -377,9 +316,9 @@ function CalendarPage() {
 
       <TaskDetailSheet
         task={selectedTask}
-        onClose={
-          handleCloseTaskDetail
-        }
+        onClose={handleCloseTaskDetail}
+        onDelete={deleteTask}
+        from="/calendar"
       />
 
       <BottomNav />

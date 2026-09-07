@@ -54,26 +54,51 @@ function TaskEditPage() {
     navigate(-1);
   };
 
-  const handleSave = () => {
-    const updatedTask: Task = {
-      id: Number(id),
-      name,
-      detail,
-      date,
-      deadline:
-        deadline || undefined,
-      priority,
-      completed:
-        task?.completed ?? false,
-    };
+const handleSave = async () => {
+  if (!name.trim()) {
+    alert("タイトルを入力してください");
+    return;
+  }
 
-    console.log(
-      "更新するタスク:",
-      updatedTask
+  const updatedTask: Task = {
+    id: Number(id),
+    name: name.trim(),
+    detail,
+    date,
+    deadline: deadline || undefined,
+    priority,
+    completed: task?.completed ?? false,
+  };
+  try {
+    const response = await fetch(
+      `http://localhost:8080/api/tasks/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedTask),
+      }
     );
 
-    navigate(-1);
-  };
+    if (!response.ok) {
+      throw new Error(
+        "タスクの更新に失敗しました"
+      );
+    }
+
+    const savedTask = await response.json();
+
+    console.log(
+      "更新したタスク:",
+      savedTask
+    );
+
+    navigate("/task");
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   return (
     <div className="taskEditPage">
@@ -157,7 +182,7 @@ function TaskEditPage() {
 
           <input
             id="deadline"
-            type="datetime-local"
+            type="time"
             value={deadline}
             onChange={(e) =>
               setDeadline(

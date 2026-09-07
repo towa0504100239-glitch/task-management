@@ -1,15 +1,21 @@
 import { useNavigate } from "react-router-dom";
+
 import type { Task } from "../types/Task";
+
 import "./TaskDetailSheet.css";
 
 type Props = {
   task: Task | null;
   onClose: () => void;
+  onDelete: (id: number) => void;
+  from: string;
 };
 
 export default function TaskDetailSheet({
   task,
   onClose,
+  onDelete,
+  from,
 }: Props) {
   const navigate = useNavigate();
 
@@ -17,13 +23,26 @@ export default function TaskDetailSheet({
     return null;
   }
 
-  const handleEdit = () => {
-    navigate(`/task/${task.id}/edit`, {
-      state: {
-        task,
-      },
-    });
-  };
+const handleEdit = () => {
+  navigate(`/task/${task.id}/edit`, {
+    state: {
+      task,
+      from,
+    },
+  });
+};
+const handleDelete = () => {
+  const confirmed = window.confirm(
+    "このタスクを削除しますか？"
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
+  onDelete(task.id);
+  onClose();
+};
 
   return (
     <div
@@ -54,18 +73,24 @@ export default function TaskDetailSheet({
           {task.detail && (
             <div className="taskSheetRow">
               <span>詳細</span>
-              <strong>{task.detail}</strong>
+              <strong>
+                {task.detail}
+              </strong>
             </div>
           )}
 
           <div className="taskSheetRow">
             <span>優先度</span>
-            <strong>{task.priority}</strong>
+            <strong>
+              {task.priority}
+            </strong>
           </div>
 
           <div className="taskSheetRow">
             <span>日付</span>
-            <strong>{task.date}</strong>
+            <strong>
+              {task.date}
+            </strong>
           </div>
 
           <div className="taskSheetRow">
@@ -91,6 +116,14 @@ export default function TaskDetailSheet({
           onClick={handleEdit}
         >
           編集する
+        </button>
+
+        <button
+          type="button"
+          className="taskSheetDelete"
+          onClick={handleDelete}
+        >
+          削除する
         </button>
       </div>
     </div>
