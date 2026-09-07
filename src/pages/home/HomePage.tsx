@@ -1,14 +1,14 @@
 import "../../index.css";
 import "./HomePage.css";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import BottomNav from "../../components/BottomNav";
 import TaskList from "../../components/TaskList";
 import TaskDetailSheet from "../../components/TaskDetailSheet";
 import { useTasks } from "../../context/TaskContext";
-
+import { usePlayer } from "../../context/PlayerContext";
 import type { Task } from "../../types/Task";
 
 type SelectedDay =
@@ -21,6 +21,12 @@ function HomePage() {
   const navigate = useNavigate();
 
   const {
+  player,
+  requiredXp,
+  xpPercentage,
+} = usePlayer();
+
+  const {
   tasks,
   toggleTask,
   deleteTask,
@@ -29,44 +35,8 @@ function HomePage() {
   const [selectedDay, setSelectedDay] =
     useState<SelectedDay>("今日");
 
-type Player = {
-  id: number;
-  level: number;
-  xp: number;
-};
-
   const [selectedTask, setSelectedTask] =
     useState<Task | null>(null);
-
-const [player, setPlayer] = useState<Player | null>(
-  null
-);
-
-useEffect(() => {
-  fetch("http://localhost:8080/api/player")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(
-          "プレイヤー情報の取得に失敗しました"
-        );
-      }
-
-      return response.json();
-    })
-    .then((data: Player) => {
-      setPlayer(data);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-}, []);
-const requiredXp = player
-  ? 100 + (player.level - 1) * 50
-  : 100;
-
-const xpPercentage = player
-  ? (player.xp / requiredXp) * 100
-  : 0;
   
   const today = new Date();
 
