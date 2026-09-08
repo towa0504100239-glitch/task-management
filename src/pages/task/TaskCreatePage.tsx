@@ -3,7 +3,9 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
+
 import "./TaskCreatePage.css";
+
 import { useTasks } from "../../context/TaskContext";
 import type { Task } from "../../types/Task";
 
@@ -14,7 +16,8 @@ type LocationState = {
   date?: string;
   returnDate?: string;
 };
-  const getToday = () => {
+
+const getToday = () => {
   const today = new Date();
 
   const year = today.getFullYear();
@@ -47,7 +50,9 @@ function TaskCreatePage() {
     useState("");
 
   const [date, setDate] =
-  useState(state?.date ?? getToday());
+    useState(
+      state?.date ?? getToday()
+    );
 
   const [deadline, setDeadline] =
     useState("");
@@ -71,47 +76,29 @@ function TaskCreatePage() {
     navigate(returnPath);
   };
 
- const handleSave = async () => {
-  if (!title.trim()) {
-  alert("タイトルを入力してください");
-  return;
-}
-  const task = {
-    name: title.trim(),
-    detail,
-    date,
-    deadline: deadline || null,
-    priority,
-    completed: false,
-  };
-
-  try {
-    const response = await fetch(
-      "http://localhost:8080/api/tasks",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(task),
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(
-        "タスクの作成に失敗しました"
-      );
+  const handleSave = async () => {
+    if (!title.trim()) {
+      alert("タイトルを入力してください");
+      return;
     }
 
-   const createdTask: Task =
-  await response.json();
+    const task: Omit<Task, "id"> = {
+      name: title.trim(),
+      detail,
+      date,
+      deadline:
+        deadline || undefined,
+      priority,
+      completed: false,
+    };
 
-    addTask(createdTask);
-    goBack();
-  } catch (error) {
-    console.error(error);
-  }
-};
+    try {
+      await addTask(task);
+      goBack();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleClose = () => {
     goBack();
@@ -127,9 +114,11 @@ function TaskCreatePage() {
         >
           ×
         </button>
+
         <h1>
           タスク作成
         </h1>
+
         <button
           type="button"
           className="saveButton"
@@ -138,11 +127,13 @@ function TaskCreatePage() {
           保存
         </button>
       </header>
+
       <main className="taskCreateContent">
         <div className="formGroup">
           <label htmlFor="title">
             タイトル
           </label>
+
           <input
             id="title"
             type="text"
@@ -154,10 +145,12 @@ function TaskCreatePage() {
             }
           />
         </div>
+
         <div className="formGroup">
           <label htmlFor="detail">
             詳細
           </label>
+
           <textarea
             id="detail"
             placeholder="詳細を入力"
@@ -167,10 +160,12 @@ function TaskCreatePage() {
             }
           />
         </div>
+
         <div className="formGroup">
           <label htmlFor="date">
             日付
           </label>
+
           <input
             id="date"
             type="date"
@@ -180,10 +175,12 @@ function TaskCreatePage() {
             }
           />
         </div>
+
         <div className="formGroup">
           <label htmlFor="deadline">
             期限（任意）
           </label>
+
           <input
             id="deadline"
             type="time"
@@ -193,10 +190,12 @@ function TaskCreatePage() {
             }
           />
         </div>
+
         <div className="formGroup">
           <p className="priorityLabel">
             優先度
           </p>
+
           <div className="priorityButtons">
             <button
               type="button"
@@ -211,6 +210,7 @@ function TaskCreatePage() {
             >
               高
             </button>
+
             <button
               type="button"
               className={`priorityButton middle ${
@@ -224,6 +224,7 @@ function TaskCreatePage() {
             >
               中
             </button>
+
             <button
               type="button"
               className={`priorityButton low ${

@@ -10,6 +10,8 @@ import type {
   Task,
 } from "../../types/Task";
 
+import { useTasks } from "../../context/TaskContext";
+
 import "./TaskEditPage.css";
 
 type EditLocationState = {
@@ -20,6 +22,8 @@ function TaskEditPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const { id } = useParams();
+
+  const { updateTask } = useTasks();
 
   const state =
     location.state as EditLocationState | null;
@@ -70,34 +74,11 @@ const handleSave = async () => {
     completed: task?.completed ?? false,
   };
   try {
-    const response = await fetch(
-      `http://localhost:8080/api/tasks/${id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedTask),
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(
-        "タスクの更新に失敗しました"
-      );
-    }
-
-    const savedTask = await response.json();
-
-    console.log(
-      "更新したタスク:",
-      savedTask
-    );
-
-    navigate("/task");
-  } catch (error) {
-    console.error(error);
-  }
+  await updateTask(updatedTask);
+  navigate("/task");
+} catch (error) {
+  console.error(error);
+}
 };
 
   return (
