@@ -1,3 +1,4 @@
+
 import {
   createContext,
   useContext,
@@ -7,15 +8,14 @@ import {
 } from "react";
 
 import type { Task } from "../types/Task";
+import { usePlayer } from "./PlayerContext";
 
 type TaskContextType = {
   tasks: Task[];
   toggleTask: (id: number) => Promise<void>;
   updateTask: (updatedTask: Task) => Promise<void>;
-  addTask: (
-    task: Omit<Task, "id">
-  ) => Promise<void>;
-  deleteTask: (id: number) => void;
+  addTask: (task: Omit<Task, "id">) => Promise<void>;
+  deleteTask: (id: number) => Promise<void>;
 };
 
 const TaskContext =
@@ -30,29 +30,36 @@ export function TaskProvider({
 }) {
   const [tasks, setTasks] = useState<Task[]>([]);
 
+  // プレイヤー情報の再取得
+  const { refreshPlayer } = usePlayer();
+
+  // タスク一覧を取得
   useEffect(() => {
-    fetch("http://localhost:8080/api/tasks")
-      .then((response) => {
+    const fetchTasks = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8080/api/tasks"
+        );
+
         if (!response.ok) {
           throw new Error(
             "タスクの取得に失敗しました"
           );
         }
 
-        return response.json();
-      })
-      .then((data: Task[]) => {
+        const data: Task[] = await response.json();
         setTasks(data);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error(error);
-      });
+      }
+    };
+
+    void fetchTasks();
   }, []);
 
+  // タスク完了・未完了の切り替え
   const toggleTask = async (id: number) => {
-    const task = tasks.find(
-      (task) => task.id === id
-    );
+    const task = tasks.find((task) => task.id === id);
 
     if (!task) {
       return;
@@ -81,24 +88,24 @@ export function TaskProvider({
         );
       }
 
-      const savedTask: Task =
-        await response.json();
+      const savedTask: Task = await response.json();
 
       setTasks((prevTasks) =>
         prevTasks.map((task) =>
-          task.id === id
-            ? savedTask
-            : task
+          task.id === id ? savedTask : task
         )
       );
+
+      // XP・レベルを更新
+      await refreshPlayer();
     } catch (error) {
       console.error(error);
+      throw error;
     }
   };
 
-  const updateTask = async (
-    updatedTask: Task
-  ) => {
+  // タスク編集
+  const updateTask = async (updatedTask: Task) => {
     try {
       const response = await fetch(
         `http://localhost:8080/api/tasks/${updatedTask.id}`,
@@ -117,25 +124,24 @@ export function TaskProvider({
         );
       }
 
-      const savedTask: Task =
-        await response.json();
+      const savedTask: Task = await response.json();
 
       setTasks((prevTasks) =>
         prevTasks.map((task) =>
-          task.id === savedTask.id
-            ? savedTask
-            : task
+          task.id === savedTask.id ? savedTask : task
         )
       );
+
+      // 優先度・完了状態が変更された場合に備える
+      await refreshPlayer();
     } catch (error) {
       console.error(error);
       throw error;
     }
   };
 
-  const addTask = async (
-    task: Omit<Task, "id">
-  ) => {
+  // タスク作成
+  const addTask = async (task: Omit<Task, "id">) => {
     try {
       const response = await fetch(
         "http://localhost:8080/api/tasks",
@@ -154,8 +160,7 @@ export function TaskProvider({
         );
       }
 
-      const createdTask: Task =
-        await response.json();
+      const createdTask: Task = await response.json();
 
       setTasks((prevTasks) => [
         ...prevTasks,
@@ -167,29 +172,32 @@ export function TaskProvider({
     }
   };
 
-  const deleteTask = (id: number) => {
-    fetch(
-      `http://localhost:8080/api/tasks/${id}`,
-      {
-        method: "DELETE",
-      }
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            "タスクの削除に失敗しました"
-          );
+  // タスク削除
+  const deleteTask = async (id: number) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/tasks/${id}`,
+        {
+          method: "DELETE",
         }
+      );
 
-        setTasks((prevTasks) =>
-          prevTasks.filter(
-            (task) => task.id !== id
-          )
+      if (!response.ok) {
+        throw new Error(
+          "タスクの削除に失敗しました"
         );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      }
+
+      setTasks((prevTasks) =>
+        prevTasks.filter((task) => task.id !== id)
+      );
+
+      // 完了済みタスク削除時のXP減算を反映
+      await refreshPlayer();
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   };
 
   return (

@@ -1,3 +1,4 @@
+
 import {
   createContext,
   useContext,
@@ -16,7 +17,7 @@ type PlayerContextType = {
   player: Player | null;
   requiredXp: number;
   xpPercentage: number;
-  changeXp: (amount: number) => Promise<void>;
+  refreshPlayer: () => Promise<void>;
 };
 
 const PlayerContext =
@@ -32,48 +33,24 @@ export function PlayerProvider({
   const [player, setPlayer] =
     useState<Player | null>(null);
 
-  useEffect(() => {
-    fetch("http://localhost:8080/api/player")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            "プレイヤー情報の取得に失敗しました"
-          );
-        }
+  const refreshPlayer = async () => {
+    const response = await fetch(
+      "http://localhost:8080/api/player"
+    );
 
-        return response.json();
-      })
-      .then((data: Player) => {
-        setPlayer(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
-
-  const changeXp = async (amount: number) => {
-    try {
-      const response = await fetch(
-        `http://localhost:8080/api/player/xp?amount=${amount}`,
-        {
-          method: "POST",
-        }
+    if (!response.ok) {
+      throw new Error(
+        "プレイヤー情報の取得に失敗しました"
       );
-
-      if (!response.ok) {
-        throw new Error(
-          "XPの更新に失敗しました"
-        );
-      }
-
-      const updatedPlayer: Player =
-        await response.json();
-
-      setPlayer(updatedPlayer);
-    } catch (error) {
-      console.error(error);
     }
+
+    const data: Player = await response.json();
+    setPlayer(data);
   };
+
+  useEffect(() => {
+    refreshPlayer().catch(console.error);
+  }, []);
 
   const requiredXp = player
     ? 100 + (player.level - 1) * 50
@@ -92,7 +69,7 @@ export function PlayerProvider({
         player,
         requiredXp,
         xpPercentage,
-        changeXp,
+        refreshPlayer,
       }}
     >
       {children}
